@@ -1,6 +1,5 @@
 package cn.dawnland.packdownload.listener;
 
-import cn.dawnland.packdownload.model.manifest.Manifest;
 import cn.dawnland.packdownload.model.manifest.ManifestFile;
 import cn.dawnland.packdownload.utils.CommonUtils;
 import cn.dawnland.packdownload.utils.DownLoadUtils;
@@ -21,10 +20,9 @@ public abstract class DownloadListener{
 
     public final Label titleLabel = new Label();
     public final JFXProgressBar modsBar = new JFXProgressBar();
-    public final Label barlabel = new Label();
+    public final Label barLabel = new Label();
     public final HBox hb = new HBox();
     public String defaultText;
-    private boolean flag = false;
     private ManifestFile manifestFile;
 
     public DownloadListener() {
@@ -53,11 +51,11 @@ public abstract class DownloadListener{
         titleLabel.setText("解析中:" + (defaultText == null || "".equals(defaultText) ? Thread.currentThread().getName() : defaultText));
         titleLabel.setPrefWidth(150D);
         titleLabel.setMaxHeight(5);
-        barlabel.setAlignment(Pos.CENTER_RIGHT);
-        barlabel.setPrefWidth(40D);
-        barlabel.setAlignment(Pos.CENTER_LEFT);
+        barLabel.setAlignment(Pos.CENTER_RIGHT);
+        barLabel.setPrefWidth(40D);
+        barLabel.setAlignment(Pos.CENTER_LEFT);
         Platform.runLater(() -> {
-            hb.getChildren().addAll(titleLabel, modsBar, barlabel);
+            hb.getChildren().addAll(titleLabel, modsBar, barLabel);
             DownLoadUtils.taskList.getItems().add(hb);
         });
     }
@@ -77,7 +75,7 @@ public abstract class DownloadListener{
     public void onProgress(int progress, String filename){
         Platform.runLater(() -> {
             titleLabel.setText("下载中:" + filename);
-            barlabel.setText(progress + "%");
+            barLabel.setText(progress + "%");
             modsBar.setProgress(progress / 100D);
         });
     }
@@ -94,7 +92,7 @@ public abstract class DownloadListener{
      * 下载暂停通知
      */
     public void onPaused(){
-        Platform.runLater(() -> barlabel.setText("下载暂停"));
+        Platform.runLater(() -> barLabel.setText("下载暂停"));
     }
 
     /**

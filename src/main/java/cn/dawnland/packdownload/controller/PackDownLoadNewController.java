@@ -28,7 +28,6 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
 
 import static java.util.concurrent.Executors.newFixedThreadPool;
 
@@ -201,22 +200,21 @@ public class PackDownLoadNewController implements Initializable {
         }
         MessageUtils.info("");
         targetHbox.getChildren().remove(0);
-        ObservableList projectObs = FXCollections.observableArrayList();
-        ObservableList fileObs = FXCollections.observableArrayList();
+        ObservableList<String> projectObs = FXCollections.observableArrayList();
+        ObservableList<String> fileObs = FXCollections.observableArrayList();
         projects.forEach((key, value) -> projectObs.add(key));
-        JFXComboBox projectComboBox = new JFXComboBox<>();
-        JFXComboBox latestComboBox = new JFXComboBox<>();
+        JFXComboBox<String> projectComboBox = new JFXComboBox<>();
+        JFXComboBox<String> latestComboBox = new JFXComboBox<>();
         projectComboBox.setPromptText("请选择一个整合包.....");
         searchHbox.getChildren().removeAll(searchText, searchButton);
         projectComboBox.setPrefWidth(searchHbox.getWidth());
         projectComboBox.setItems(projectObs);
         projectComboBox.getSelectionModel()
                 .selectedItemProperty()
-                .addListener((observable, oldValue, newValue)
-                        -> {
+                .addListener((observable, oldValue, newValue) -> {
                     latestComboBox.setPromptText("请选择一个版本.....");
                     fileObs.remove(0, fileObs.size());
-                    projects.get(newValue).entrySet().stream().forEach(e -> fileObs.add(e.getKey()));
+                    projects.get(newValue).forEach((key, value) -> fileObs.add(key));
                     latestComboBox.setItems(fileObs);
                     latestComboBox.getSelectionModel()
                             .selectedItemProperty()

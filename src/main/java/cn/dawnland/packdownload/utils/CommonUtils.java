@@ -3,6 +3,9 @@ package cn.dawnland.packdownload.utils;
 import cn.dawnland.packdownload.controller.PackDownLoadNewController;
 import cn.dawnland.packdownload.model.InstallInfo;
 import cn.dawnland.packdownload.task.JsonJXTask;
+import cn.dawnland.packdownload.task.TaskProfile;
+import com.jfoenix.controls.JFXListView;
+import javafx.scene.layout.HBox;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -21,6 +24,7 @@ import static java.util.concurrent.Executors.newFixedThreadPool;
  */
 public class CommonUtils {
 
+    private static JFXListView<HBox> taskList;
     private static ExecutorService pool;
 
     public static ExecutorService getPool() {
@@ -69,6 +73,10 @@ public class CommonUtils {
         Transferable trans = new StringSelection(text);
         // 把文本内容设置到系统剪贴板
         clipboard.setContents(trans, null);
+    }
+
+    public static JFXListView<HBox> getTaskList(){
+        return taskList;
     }
 
 }

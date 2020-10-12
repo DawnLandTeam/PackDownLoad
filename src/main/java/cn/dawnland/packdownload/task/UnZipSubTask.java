@@ -43,7 +43,7 @@ public class UnZipSubTask implements Runnable {
                     path = path.replaceFirst(manifest.getOverrides(), ".minecraft");
                 }
                 File unzipFile = new File(path);
-                if(!ze.isDirectory() && unzipFile != null && unzipFile.exists() && unzipFile.length() == ze.getSize()){
+                if(!ze.isDirectory() && unzipFile.exists() && unzipFile.length() == ze.getSize()){
                     LogUtils.info(ze.getName() + "跳过-已解压");
                     UIUpdateUtils.unzipBarAddOne();
                     continue;

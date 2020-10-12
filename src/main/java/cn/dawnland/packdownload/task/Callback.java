@@ -1,11 +1,15 @@
 package cn.dawnland.packdownload.task;
 
-public interface Callback<T> {
+import cn.dawnland.packdownload.utils.MessageUtils;
 
-    String progressCallback(int progress, Object temp);
+public abstract class Callback<T> {
 
-    String successCallback(T result);
+    abstract void progressCallback(int progress, Object temp);
 
-    String exceptionCallback(Exception e);
+    abstract void successCallback();
+
+    void exceptionCallback(Exception e){
+        MessageUtils.error(e);
+    }
 
 }

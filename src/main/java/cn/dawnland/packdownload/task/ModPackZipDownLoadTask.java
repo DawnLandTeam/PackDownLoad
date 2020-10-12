@@ -22,6 +22,6 @@ public class ModPackZipDownLoadTask implements Runnable {
     public void run() {
         PackDownLoadNewController.setDisplay();
         MessageUtils.info("正在解析整合包ZIP...");
-        CommonUtils.getPool().submit(new JsonJXTask(zipFilePath, taskList));
+        CommonUtils.getPool().submit(new JsonJXTask(zipFilePath));
     }
 }

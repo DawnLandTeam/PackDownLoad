@@ -3,10 +3,12 @@ package cn.dawnland.packdownload.utils;
 import cn.dawnland.packdownload.listener.DownloadListener;
 import cn.dawnland.packdownload.model.ForgeVersion;
 import cn.dawnland.packdownload.task.DownloadTask;
+import cn.dawnland.packdownload.task.TaskProfile;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfoenix.controls.JFXListView;
 import javafx.application.Platform;
+import javafx.scene.layout.HBox;
 
 import javax.swing.*;
 import java.io.*;
@@ -24,7 +26,7 @@ public class DownLoadUtils {
 
     public static ConcurrentMap<String, String> downloadFaildModS = new ConcurrentHashMap();
 
-    public static JFXListView taskList;
+    public static JFXListView<HBox> taskList;
 
     private static Pattern FilePattern = Pattern.compile("[\\\\/:*?\"<>|]");
 
