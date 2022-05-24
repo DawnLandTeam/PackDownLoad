@@ -42,7 +42,7 @@ public class OkHttpUtils{
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(10, TimeUnit.SECONDS)
-                .addInterceptor(new RetryInterceptor(10))
+//                .addInterceptor(new RetryInterceptor(10))
                 .addNetworkInterceptor(chain -> {
                     System.out.println("url: " + chain.request().url());
                     return chain.proceed(chain.request());
@@ -132,7 +132,7 @@ public class OkHttpUtils{
     }
 
     public String get(final String url) throws IOException {
-        Request request = new Request.Builder().url(url).build();
+        Request request = new Request.Builder().url(url).header("x-api-key", "$2a$10$pHPi1WiZ7pWAcIr6ap89r.FefOLhk2Q0whs4bADku3Nj5D4v9Wqde").build();
         Response response = okHttpClient.newCall(request).execute();
         return response.body().string();
     }

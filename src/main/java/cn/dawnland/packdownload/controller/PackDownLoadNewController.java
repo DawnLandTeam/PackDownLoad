@@ -191,41 +191,43 @@ public class PackDownLoadNewController implements Initializable {
     }
 
     public void searchPack() throws IOException {
-        String searchStr = searchText.getText();
-        MessageUtils.info("正在搜索中,请稍后..可能会出现未响应请勿关闭软件");
-        Map<String, Map<String, String>> projects = CurseProjectInfo.searchProject(searchStr);
-        if(projects.size() < 1){
-            MessageUtils.info("请确认后重新搜索", "未搜索到整合包");
-            return;
-        }
-        MessageUtils.info("");
-        targetHbox.getChildren().remove(0);
-        ObservableList<String> projectObs = FXCollections.observableArrayList();
-        ObservableList<String> fileObs = FXCollections.observableArrayList();
-        projects.forEach((key, value) -> projectObs.add(key));
-        JFXComboBox<String> projectComboBox = new JFXComboBox<>();
-        JFXComboBox<String> latestComboBox = new JFXComboBox<>();
-        projectComboBox.setPromptText("请选择一个整合包.....");
-        searchHbox.getChildren().removeAll(searchText, searchButton);
-        projectComboBox.setPrefWidth(searchHbox.getWidth());
-        projectComboBox.setItems(projectObs);
-        projectComboBox.getSelectionModel()
-                .selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    latestComboBox.setPromptText("请选择一个版本.....");
-                    fileObs.remove(0, fileObs.size());
-                    projects.get(newValue).forEach((key, value) -> fileObs.add(key));
-                    latestComboBox.setItems(fileObs);
-                    latestComboBox.getSelectionModel()
-                            .selectedItemProperty()
-                            .addListener(((observable1, oldValue1, newValue1) -> {
-                                projectUrlTextField.setText(projects.get(newValue).get(newValue1));
-                            }));
-                    if(targetHbox.getChildren().size() == 0){
-                        targetHbox.getChildren().add(0, latestComboBox);
-                    }
-                });
-        searchHbox.getChildren().add(projectComboBox);
+        MessageUtils.info("在线搜索待修复,请使用ZIP方式安装");
+        return;
+//        String searchStr = searchText.getText();
+//        MessageUtils.info("正在搜索中,请稍后..可能会出现未响应请勿关闭软件");
+//        Map<String, Map<String, String>> projects = CurseProjectInfo.searchProject(searchStr);
+//        if(projects.size() < 1){
+//            MessageUtils.info("请确认后重新搜索", "未搜索到整合包");
+//            return;
+//        }
+//        MessageUtils.info("");
+//        targetHbox.getChildren().remove(0);
+//        ObservableList<String> projectObs = FXCollections.observableArrayList();
+//        ObservableList<String> fileObs = FXCollections.observableArrayList();
+//        projects.forEach((key, value) -> projectObs.add(key));
+//        JFXComboBox<String> projectComboBox = new JFXComboBox<>();
+//        JFXComboBox<String> latestComboBox = new JFXComboBox<>();
+//        projectComboBox.setPromptText("请选择一个整合包.....");
+//        searchHbox.getChildren().removeAll(searchText, searchButton);
+//        projectComboBox.setPrefWidth(searchHbox.getWidth());
+//        projectComboBox.setItems(projectObs);
+//        projectComboBox.getSelectionModel()
+//                .selectedItemProperty()
+//                .addListener((observable, oldValue, newValue) -> {
+//                    latestComboBox.setPromptText("请选择一个版本.....");
+//                    fileObs.remove(0, fileObs.size());
+//                    projects.get(newValue).forEach((key, value) -> fileObs.add(key));
+//                    latestComboBox.setItems(fileObs);
+//                    latestComboBox.getSelectionModel()
+//                            .selectedItemProperty()
+//                            .addListener(((observable1, oldValue1, newValue1) -> {
+//                                projectUrlTextField.setText(projects.get(newValue).get(newValue1));
+//                            }));
+//                    if(targetHbox.getChildren().size() == 0){
+//                        targetHbox.getChildren().add(0, latestComboBox);
+//                    }
+//                });
+//        searchHbox.getChildren().add(projectComboBox);
     }
 
     private void startInstall(){

@@ -97,6 +97,12 @@ public class DownloadTask {
 //        }
         try {
             Response response = client.newCall(request).execute();
+            if(response.code() == 404){
+                request = new Request.Builder()
+                        .url(url.replace("https://media", "https://edge"))
+                        .build();
+                response = client.newCall(request).execute();
+            }
             //得到下载内容的大小
             long contentLength = response.body().contentLength();
             if (contentLength == 0) {

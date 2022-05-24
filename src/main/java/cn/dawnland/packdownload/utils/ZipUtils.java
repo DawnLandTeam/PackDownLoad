@@ -33,6 +33,7 @@ public class ZipUtils {
             }
 
             ZipFile zf = new ZipFile(zipFile);
+            UIUpdateUtils.unzipCount = zf.size();
 
             ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFile));
 
@@ -60,7 +61,6 @@ public class ZipUtils {
                 CommonUtils.getPool().submit(()-> {
                     UIUpdateUtils.unzipBar = unzipBar;
                     UIUpdateUtils.unzipLabel = label;
-                    UIUpdateUtils.unzipCount = zf.size();
                 });
             });
             CommonUtils.getPool().submit(new UnZipSubTask(manifest, zin, location));

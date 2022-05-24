@@ -21,5 +21,6 @@ public class ManifestFile {
     private String originUrl;
     private String downloadUrl;
     private boolean downloadSucceed;
+    private int downloadRetryCount;
 
 }

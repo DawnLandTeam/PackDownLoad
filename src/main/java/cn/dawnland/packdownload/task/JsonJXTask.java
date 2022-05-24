@@ -72,6 +72,7 @@ public class JsonJXTask extends BaseTask<Manifest> {
             List<ManifestFile> files = manifest.getFiles();
 
             Set<ManifestFile> processedFiles = manifest.getFiles().stream().filter(f -> !f.isDownloadSucceed()).collect(Collectors.toSet());
+            UIUpdateUtils.modsCount = processedFiles.size();
             processedFiles.forEach(this::request);
             String mcVersion = manifest.getMinecraft().getVersion();
             String forgeVersionStr = manifest.getMinecraft().getModLoaders().get(0).getId();
@@ -88,19 +89,39 @@ public class JsonJXTask extends BaseTask<Manifest> {
     }
 
     private final String MODS_PATH = DownLoadUtils.getPackPath() + "/mods";
-    private final String ADDON_URL = "https://api.curseforge.com/v1/mods/%s/files/%s/download-url";
+    private final String ADDON_URL = "https://api.curseforge.com/v1/mods/%s/files/%s";
+
+    private final String FILE_DOWNLOAD_BASE_URL = "https://media.forgecdn.net/files/%s/%s/%s";
 
     public void request(ManifestFile manifestFile) {
         CommonUtils.getPool().submit(() -> {
-            try {
-                if(manifestFile.getDownloadUrl() == null || manifestFile.getDownloadUrl().trim().length() < 1){
-                    manifestFile.setDownloadUrl(OkHttpUtils.get().get(String.format(ADDON_URL, manifestFile.getProjectID(), manifestFile.getFileID())));
+            if(!manifestFile.isDownloadSucceed()){
+                String downloadUrl = getDownloadUrl(manifestFile.getProjectID().toString(), manifestFile.getFileID().toString());
+                if(downloadUrl == null || downloadUrl.isEmpty()){
+                    LogUtils.error(manifestFile.getProjectID() + ":" + manifestFile.getFileID() + "未获取到下载地址");
+                }else{
+                    LogUtils.info(manifestFile.getProjectID() + ":" + manifestFile.getFileID() + "获取下载地址成功:" + downloadUrl);
+                    manifestFile.setDownloadUrl(downloadUrl);
                 }
-            } catch (IOException e) {
-                MessageUtils.error(e);
             }
             manifestFile.setDisName(manifestFile.getProjectID() + ":" + manifestFile.getFileID());
             new ModDownLoadTask(manifest, manifestFile, MODS_PATH).subTask();
         });
+    }
+    public String getDownloadUrl(String projectId, String fileId){
+        try{
+            String responseStr = OkHttpUtils.get().get(String.format(ADDON_URL, projectId, fileId));
+            JSONObject object = JSONObject.parseObject(responseStr);
+            JSONObject data = object.getObject("data", JSONObject.class);
+            String fileName = (String) data.get("fileName");
+            String requestDownloadUrl = (String) data.get("downloadUrl");
+            String downloadUrl = requestDownloadUrl == null || requestDownloadUrl.isEmpty() ?
+                    String.format(FILE_DOWNLOAD_BASE_URL, fileId.substring(0, 4), fileId.substring(4), fileName):
+                    requestDownloadUrl.split("\\?")[0];
+            return downloadUrl;
+        }catch (IOException e){
+            MessageUtils.error(e);
+            return null;
+        }
     }
 }

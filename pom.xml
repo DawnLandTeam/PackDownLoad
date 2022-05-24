@@ -112,8 +112,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
 <!--            <plugin>-->
@@ -174,11 +174,11 @@
                                 <jdkPreference>preferJre</jdkPreference>
                             </jre>
                             <versionInfo>
-                                <fileVersion>2.0.6.0</fileVersion>
+                                <fileVersion>2.1.8.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
                                 <copyright>2019 DawnLand Cap_Sub</copyright>
-                                <productVersion>2.0.6.0</productVersion>
+                                <productVersion>2.1.8.0</productVersion>
                                 <txtProductVersion>1.0.0.0</txtProductVersion>
                                 <productName>${project.name}</productName>
                                 <companyName>dawnland.cn</companyName>

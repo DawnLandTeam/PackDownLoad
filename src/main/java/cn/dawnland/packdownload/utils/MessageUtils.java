@@ -33,11 +33,11 @@ public class MessageUtils {
     }
 
     private static boolean checkUnzip(){
-        return UIUpdateUtils.modsPoint.get() == UIUpdateUtils.modsCount;
+        return UIUpdateUtils.unzipPoint.get() == UIUpdateUtils.unzipCount;
     }
 
     private static boolean checkMod(){
-        return UIUpdateUtils.unzipPoint.get() == UIUpdateUtils.unzipCount;
+        return UIUpdateUtils.modsPoint.get() == UIUpdateUtils.modsCount;
     }
 
     public synchronized static void setStatus(){

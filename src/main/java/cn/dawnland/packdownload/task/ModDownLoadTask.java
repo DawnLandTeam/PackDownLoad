@@ -4,6 +4,7 @@ import cn.dawnland.packdownload.listener.DownloadListener;
 import cn.dawnland.packdownload.model.manifest.Manifest;
 import cn.dawnland.packdownload.model.manifest.ManifestFile;
 import cn.dawnland.packdownload.utils.DownLoadUtils;
+import cn.dawnland.packdownload.utils.LogUtils;
 import cn.dawnland.packdownload.utils.UIUpdateUtils;
 import javafx.application.Platform;
 
@@ -35,6 +36,21 @@ public class ModDownLoadTask extends BaseTask<ManifestFile> {
                 });
                 callback.progressCallback(progressIndex.addAndGet(1), file);
             }
+
+            @Override
+            public void onFailed(String filename, String url) {
+                if(manifestFile.getDownloadRetryCount() < 10){
+                    LogUtils.info("重试次数:" + manifestFile.getDownloadRetryCount() + ":" + url);
+                    url = url.replace("https://media", "https://edge");
+                    manifestFile.setDownloadUrl(url);
+                    manifestFile.setDownloadRetryCount(manifestFile.getDownloadRetryCount() + 1);
+                    manifest.save();
+                    new ModDownLoadTask(manifest, manifestFile, DownLoadUtils.getPackPath() + "/mods").subTask();
+                }else{
+                    super.onFailed(filename, url);
+                }
+            }
+
         });
         callback.successCallback();
     }

@@ -3,6 +3,7 @@ package cn.dawnland.packdownload.utils;
 import cn.dawnland.packdownload.listener.DownloadListener;
 import cn.dawnland.packdownload.model.ForgeVersion;
 import cn.dawnland.packdownload.task.DownloadTask;
+import cn.dawnland.packdownload.task.JsonJXTask;
 import cn.dawnland.packdownload.task.TaskProfile;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -186,18 +187,18 @@ public class DownLoadUtils {
         String s = OkHttpUtils.get().get(MojangUtils.getJsonUrl(mcVersion));
         JSONObject jsonObject = JSONObject.parseObject(s);
         MessageUtils.info("正在获取Forge配置...");
-        String versionJson = forgeVersion.getForgeVersionJson();
-        String versionJsonStr = (String) JSONObject.parseObject(versionJson).get("versionJson");
-        versionJsonStr = versionJsonStr.replaceAll("\r\n", "");
-        JSONObject versionObject = JSONObject.parseObject(versionJsonStr);
-
-        JSONArray libraries = (JSONArray) versionObject.get("libraries");
-        libraries.addAll((JSONArray)jsonObject.get("libraries"));
-        MessageUtils.info("正在添加依赖");
-        jsonObject.put("libraries", libraries);
-        jsonObject.put("minecraftArguments", versionObject.get("minecraftArguments"));
-        jsonObject.put("mainClass", versionObject.get("mainClass"));
-        MessageUtils.info("正在下载配置文件...");
+//        String versionJson = forgeVersion.getForgeVersionJson();
+//        String versionJsonStr = (String) JSONObject.parseObject(versionJson).get("versionJson");
+//        versionJsonStr = versionJsonStr.replaceAll("\r\n", "");
+//        JSONObject versionObject = JSONObject.parseObject(versionJsonStr);
+//
+//        JSONArray libraries = (JSONArray) versionObject.get("libraries");
+//        libraries.addAll((JSONArray)jsonObject.get("libraries"));
+//        MessageUtils.info("正在添加依赖");
+//        jsonObject.put("libraries", libraries);
+//        jsonObject.put("minecraftArguments", versionObject.get("minecraftArguments"));
+//        jsonObject.put("mainClass", versionObject.get("mainClass"));
+//        MessageUtils.info("正在下载配置文件...");
         DownLoadUtils.downLoadFromUrl("https://dawnland.cn/hmclversion.cfg", DownLoadUtils.getPackPath(), new DownloadListener() {
             @Override
             public void onSuccess(File file) {
@@ -239,6 +240,12 @@ public class DownLoadUtils {
     }
 
     public static void isOpenLanauch(){
+        JOptionPane.showMessageDialog(null,
+                String.format("自动安装核心及ModLoader待修复, 请自行安装mc:%s,modloader:%s",
+                        JsonJXTask.manifest.getMinecraft().getVersion(),
+                        JsonJXTask.manifest.getMinecraft().getModLoaders().get(0).getId()),
+                "安装完成", 1);
+        JOptionPane.showMessageDialog(null, "整合包文件在" + DownLoadUtils.getPackPath(), "安装完成", 1);
         JOptionPane.showMessageDialog(null, "打开启动器开始玩耍吧!", "安装完成", 1);
         Runtime runtime = null;
         try {

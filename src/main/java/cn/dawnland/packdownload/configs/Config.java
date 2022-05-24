@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class Config {
 
-    public static float currentVersion = 2.17f;
+    public static float currentVersion = 2.18f;
     public static String batUrl;
     public static String versionUrl;
     public static String exeUrl;
