@@ -88,7 +88,7 @@ public class JsonJXTask extends BaseTask<Manifest> {
     }
 
     private final String MODS_PATH = DownLoadUtils.getPackPath() + "/mods";
-    private final String ADDON_URL = "https://addons-ecs.forgesvc.net/api/v2/addon/%s/file/%s/download-url";
+    private final String ADDON_URL = "https://api.curseforge.com/v1/mods/%s/files/%s/download-url";
 
     public void request(ManifestFile manifestFile) {
         CommonUtils.getPool().submit(() -> {
